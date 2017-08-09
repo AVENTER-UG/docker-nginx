@@ -32,6 +32,7 @@ RUN apt-get update && apt-get install -y \
   php-curl \
   php-zip \
   php-mbstring \
+  php-soap \
   unzip \
   && rm -rf /var/lib/apt/lists/* \
   && apt-get -y upgrade
