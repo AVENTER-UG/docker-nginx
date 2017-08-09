@@ -32,14 +32,12 @@ RUN apt-get update && apt-get install -y \
   php-curl \
   php-zip \
   php-mbstring \
-  php-opcache \
   unzip \
   && rm -rf /var/lib/apt/lists/* \
   && apt-get -y upgrade
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
-COPY opcache.ini /etc/php/7.0/mods-available/opcache.ini
 COPY apcu.ini /etc/php/7.0/mods-available/apcu.ini
 COPY redis.conf /etc/redis.conf
 COPY run.sh /usr/local/bin/run.sh
