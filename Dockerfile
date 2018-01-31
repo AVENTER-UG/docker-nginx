@@ -17,7 +17,6 @@ RUN apt-get update && apt-get install -y \
   libxml2-dev \
   nginx \
   tzdata \
-  redis-server \
   curl \
   git \
   daemontools \
@@ -40,11 +39,10 @@ RUN apt-get update && apt-get install -y \
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
 COPY apcu.ini /etc/php/7.0/mods-available/apcu.ini
-COPY redis.conf /etc/redis.conf
 COPY run.sh /usr/local/bin/run.sh
 COPY s6.d /etc/s6.d
 RUN chmod +x /usr/local/bin/* /etc/s6.d/*/* /etc/s6.d/.s6-svscan/*
-RUN chown -R www-data: /var/www/html/
+RUN chown -R www-data: /var/www/html
 
 VOLUME /var/www/html/
 
