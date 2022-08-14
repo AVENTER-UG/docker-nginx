@@ -33,9 +33,9 @@ COPY run.sh /run.sh
 
 RUN mkdir -p /var/www/html/ && \
     chown -R nobody: /var/www/html && \
-    chown -R nobody: /var/log/php7 && \
+    chown -R nobody: /var/log/php8 && \
     chown -R nobody: /var/lib/nginx/logs 
 
 EXPOSE 8888
 
-CMD /run.sh && php-fpm7 && nginx 
+CMD /run.sh && php-fpm8 && nginx 
