@@ -18,24 +18,26 @@ RUN set -xe \
                           php-sqlite3 \
                           php-xml \
                           php-zlib \
-                  			  php-session \
-      			              php-gd \
-  	    		              php-curl \
-  			                  php-zip \
-      			              php-mbstring \
-  	    		              php-soap \
-      			              php-json \
-		  	                  bash \
-    	  		              git 
+                  		  php-session \
+      			          php-gd \
+  	    		          php-curl \
+  			              php-zip \
+      			          php-mbstring \
+  	    		          php-soap \
+      			          php-json \
+		  	              bash \
+    	  		          git 
+
+RUN apk update
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY run.sh /run.sh
 
-RUN mkdir -p /var/www/html/ && \
-    chown -R nobody: /var/www/html && \
-    chown -R nobody: /var/log/php8 && \
-    chown -R nobody: /var/lib/nginx/logs 
+RUN mkdir -p /var/www/html/ 
+RUN chown -R nobody: /var/www/html 
+RUN chown -R nobody: /var/log/php81
+RUN chown -R nobody: /var/lib/nginx/logs 
 
 EXPOSE 8888
 
-CMD /run.sh && php-fpm8 && nginx 
+CMD /run.sh && php-fpm81 && nginx 
