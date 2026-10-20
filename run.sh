@@ -22,5 +22,6 @@ rm -rf .git 2>/dev/null
 
 chown -R 100:82 /var/www/html
 
-exec "$@"
+/usr/sbin/php-fpm84 &
+nginx
 

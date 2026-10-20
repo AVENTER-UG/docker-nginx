@@ -4,7 +4,7 @@
 IMAGENAME=docker-nginx
 BUILDDATE=${shell date -u +%Y-%m-%dT%H:%M:%SZ}
 IMAGEFULLNAME=avhost/${IMAGENAME}
-BRANCH=php8.3
+BRANCH=php8.4
 LASTCOMMIT=$(shell git log -1 --pretty=short | tail -n 1 | tr -d " " | tr -d "UPDATE:")
 
 .PHONY: help build bootstrap all docs publish push version
@@ -26,14 +26,13 @@ help:
 
 build:
 	@echo ">>>> Build docker image"
-	@docker build --build-arg TAG=${TAG} --build-arg BUILDDATE=${BUILDDATE} -t ${IMAGEFULLNAME}:${BRANCH} .
+	@docker buildx build --progress=plain --load --build-arg TAG=${TAG} --build-arg BUILDDATE=${BUILDDATE} -t ${IMAGEFULLNAME}:${BRANCH} .
 
 push:
 	@echo ">>>> Publish docker image: " ${BRANCH}
-	@docker buildx create --use --name buildkit
-	@docker buildx build --platform linux/arm64,linux/amd64 --push -t ${IMAGEFULLNAME}:${BRANCH} .
-	@docker buildx build --platform linux/arm64,linux/amd64 --push -t ${IMAGEFULLNAME}:latest .
-	@docker buildx rm buildkit
+	-docker buildx create --use --name buildkit
+	@docker buildx build --sbom=true --provenance=true --platform linux/arm64,linux/amd64 --push -t ${IMAGEFULLNAME}:${BRANCH} .
+	@docker buildx build --sbom=true --provenance=true --platform linux/arm64,linux/amd64 --push -t ${IMAGEFULLNAME}:latest .
 
 seccheck:
 	trivy image ${IMAGEFULLNAME}:${BRANCH}
